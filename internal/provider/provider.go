@@ -37,6 +37,12 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("PIHOLE_CA_FILE", nil),
 				Description: "CA file to connect to Pi-hole with TLS",
 			},
+			"insecure": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("PIHOLE_INSECURE", nil),
+				Description: "Skip TLS verification",
+			},
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
@@ -68,6 +74,7 @@ func configure(version string, provider *schema.Provider) func(ctx context.Conte
 			UserAgent: provider.UserAgent("terraform-provider-pihole", version),
 			APIToken:  d.Get("api_token").(string),
 			CAFile:    d.Get("ca_file").(string),
+			Insecure:  d.Get("insecure").(bool),
 		}.Client(ctx)
 		if err != nil {
 			return nil, diag.FromErr(err)

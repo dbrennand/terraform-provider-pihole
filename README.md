@@ -27,8 +27,9 @@ Configure the provider with credentials, or pass environment variables.
 provider "pihole" {
   url       = "https://pihole.domain.com" # PIHOLE_URL
   password  = var.pihole_password         # PIHOLE_PASSWORD
-
   # api_token = var.pihole_api_token      # PIHOLE_API_TOKEN (experimental, requires Web Interface >= 5.11)
+  # ca_file   = var.ca_file               # PIHOLE_CA_FILE (optional)
+  # insecure  = false                     # PIHOLE_INSECURE (optional)
 }
 ```
 
@@ -40,7 +41,7 @@ Due to recent updates, this provider is not stable for any `pihole/pihole` image
 
 ## Provider Development
 
-There are a few ways to configure local providers. See the somewhat obscure [Terraform plugin installation documentation](https://www.terraform.io/docs/cli/commands/init.html#plugin-installation) for a potential recommended way. 
+There are a few ways to configure local providers. See the somewhat obscure [Terraform plugin installation documentation](https://www.terraform.io/docs/cli/commands/init.html#plugin-installation) for a potential recommended way.
 
 One way to run a local provider is to build the project, move it to the Terraform plugins directory and then use a `required_providers` block to note the address and version.
 
@@ -48,7 +49,7 @@ One way to run a local provider is to build the project, move it to the Terrafor
 # from the project root
 go build .
 
-# Note the `/darwin_amd64/` path portion targets a Mac with an AMD64 processor, 
+# Note the `/darwin_amd64/` path portion targets a Mac with an AMD64 processor,
 # see https://github.com/ryanwholey/terraform-provider-pihole/blob/main/.goreleaser.yml#L18-L27
 # for possible supported combinations
 
@@ -92,7 +93,7 @@ make testall
 
 ### Docs
 
-Documentation is auto-generated via [tfplugindocs](https://github.com/hashicorp/terraform-plugin-docs) from description fields within the provider package, as well as examples and templates from the `examples/` and `templates/` folders respectively. 
+Documentation is auto-generated via [tfplugindocs](https://github.com/hashicorp/terraform-plugin-docs) from description fields within the provider package, as well as examples and templates from the `examples/` and `templates/` folders respectively.
 
 To generate the docs, ensure that `tfplugindocs` is installed, then run
 

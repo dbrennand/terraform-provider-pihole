@@ -27,6 +27,9 @@ type Config struct {
 
 	// Custom CA file
 	CAFile string
+
+	// Skip TLS verification
+	Insecure bool
 }
 
 // Client initializes a new pihole client from the passed configuration
@@ -44,6 +47,16 @@ func (c Config) Client(ctx context.Context) (*pihole.Client, error) {
 			RootCAs: rootCAs,
 		}
 
+		HttpClient = &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: tlsConfig,
+			},
+		}
+	}
+	if c.Insecure == true {
+		tlsConfig := &tls.Config{
+			InsecureSkipVerify: true
+		}
 		HttpClient = &http.Client{
 			Transport: &http.Transport{
 				TLSClientConfig: tlsConfig,
