@@ -55,7 +55,7 @@ func (c Config) Client(ctx context.Context) (*pihole.Client, error) {
 	}
 	if c.Insecure == true {
 		tlsConfig := &tls.Config{
-			InsecureSkipVerify: true
+			InsecureSkipVerify: true,
 		}
 		HttpClient = &http.Client{
 			Transport: &http.Transport{
